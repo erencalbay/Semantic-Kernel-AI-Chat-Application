@@ -1,5 +1,5 @@
 var hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:7118/ai-hub")
+    .withUrl("https://localhost:7091/ai-hub")
     .build();
 
 hubConnection.start()
@@ -24,7 +24,7 @@ function sendPrompt() {
     chatBox.innerHTML += userMessage;
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    fetch("https://localhost:7118/chat", {
+    fetch("https://localhost:7091/chat", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -10,9 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddKernel()
     .AddOpenAIChatCompletion(
-        modelId: "google/gemini-2.0-pro-exp-02-05:free",
+        modelId: "google/gemini-2.5-flash-lite-preview-06-17",
         openAIClient: new OpenAIClient(
-            credential: new ApiKeyCredential("sk-or-v1-0959a8d8aed****d06e78ff68ceaa"),
+            credential: new ApiKeyCredential("your-api-key"),
             options: new OpenAIClientOptions
             {
                 Endpoint = new Uri("https://openrouter.ai/api/v1")
@@ -25,17 +25,16 @@ builder.Services.AddCors(options =>
                                        .AllowCredentials()
                                        .SetIsOriginAllowed(s => true)));
 
+builder.Services.AddHttpClient();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<AIService>();
 
 var app = builder.Build();
 app.UseCors();
 
-app.MapGet("/", () => "Hello World!");
-
-app.MapHub<AIHub>("ai-hub");
 app.MapPost("/chat", async (AIService aiService, ChatRequestVM chatRequest, CancellationToken cancellationToken)
     => await aiService.GetMessageStreamAsync(chatRequest.Prompt, chatRequest.ConnectionId, cancellationToken));
 
+app.MapHub<AIHub>("ai-hub");
 
 app.Run();
