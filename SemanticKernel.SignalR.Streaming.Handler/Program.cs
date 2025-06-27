@@ -13,13 +13,14 @@ builder.Services
     .AddOpenAIChatCompletion(
         modelId: "google/gemini-2.5-flash-lite-preview-06-17",
         openAIClient: new OpenAIClient(
-            credential: new ApiKeyCredential("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"),
+            credential: new ApiKeyCredential("your-api-key"),
             options: new OpenAIClientOptions
             {
                 Endpoint = new Uri("https://openrouter.ai/api/v1")
             })
     )
-    .Plugins.AddFromType<CalculatorPlugin>();
+    .Plugins.AddFromType<CalculatorPlugin>()
+            .AddFromType<ProductsPlugin>();
 
 builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy => policy.AllowAnyMethod()
