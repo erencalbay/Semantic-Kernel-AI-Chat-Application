@@ -1,6 +1,7 @@
 using Microsoft.SemanticKernel;
 using OpenAI;
 using SemanticKernel.SignalR.Streaming.Handler.Hubs;
+using SemanticKernel.SignalR.Streaming.Handler.Plugins;
 using SemanticKernel.SignalR.Streaming.Handler.Services;
 using SemanticKernel.SignalR.Streaming.Handler.ViewModels;
 using System.ClientModel;
@@ -12,12 +13,13 @@ builder.Services
     .AddOpenAIChatCompletion(
         modelId: "google/gemini-2.5-flash-lite-preview-06-17",
         openAIClient: new OpenAIClient(
-            credential: new ApiKeyCredential("your-api-key"),
+            credential: new ApiKeyCredential("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"),
             options: new OpenAIClientOptions
             {
                 Endpoint = new Uri("https://openrouter.ai/api/v1")
             })
-    );
+    )
+    .Plugins.AddFromType<CalculatorPlugin>();
 
 builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy => policy.AllowAnyMethod()
